@@ -25,7 +25,7 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponse(
             status = HttpStatus.BAD_REQUEST.value(),
             error = "Validation Error",
-            message = "Invalid request body: $errors"
+            message = "Request validation failed: $errors"
         )
 
         return ResponseEntity
@@ -39,9 +39,9 @@ class GlobalExceptionHandler {
         val message = when (val cause = ex.cause) {
             is InvalidFormatException -> {
                 val fieldName = cause.path.joinToString(".") { it.fieldName }
-                "Invalid value for field '$fieldName'. Expected type: ${cause.targetType.simpleName}"
+                "Field '$fieldName' has incorrect format. Expected type: ${cause.targetType.simpleName}"
             }
-            else -> "Malformed JSON request body. Please check your request format."
+            else -> "Request body contains malformed JSON. Please verify the format."
         }
 
         val errorResponse = ErrorResponse(
@@ -61,7 +61,7 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponse(
             status = HttpStatus.BAD_REQUEST.value(),
             error = "Bad Request",
-            message = ex.message ?: "Invalid input data"
+            message = ex.message ?: "Provided input is invalid"
         )
 
         return ResponseEntity
@@ -76,7 +76,7 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponse(
             status = HttpStatus.NOT_FOUND.value(),
             error = "User Not Found",
-            message = ex.message ?: "User not found"
+            message = ex.message ?: "The requested user does not exist"
         )
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
@@ -90,7 +90,7 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponse(
             status = HttpStatus.NOT_FOUND.value(),
             error = "Dish Not Found",
-            message = ex.message ?: "Dish not found"
+            message = ex.message ?: "The requested dish could not be found"
         )
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
@@ -103,7 +103,7 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponse(
             status = HttpStatus.CONFLICT.value(),
             error = "Dish Name Already Exists",
-            message = ex.message ?: "Dish name already exists"
+            message = ex.message ?: "A dish with this name is already registered"
         )
         return ResponseEntity
             .status(HttpStatus.CONFLICT)
@@ -117,7 +117,7 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponse(
             status = HttpStatus.NOT_FOUND.value(),
             error = "Restaurant Not Found",
-            message = ex.message ?: "Restaurant not found"
+            message = ex.message ?: "The specified restaurant does not exist"
         )
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
@@ -130,7 +130,7 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponse(
             status = HttpStatus.CONFLICT.value(),
             error = "Restaurant Name Already Exists",
-            message = ex.message ?: "Restaurant name already exists"
+            message = ex.message ?: "A restaurant with this name is already present"
         )
         return ResponseEntity
             .status(HttpStatus.CONFLICT)
@@ -144,7 +144,7 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponse(
             status = HttpStatus.NOT_FOUND.value(),
             error = "Order Not Found",
-            message = ex.message ?: "Order not found"
+            message = ex.message ?: "The requested order does not exist"
         )
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
@@ -157,7 +157,7 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponse(
             status = HttpStatus.BAD_REQUEST.value(),
             error = "Invalid Status Transition",
-            message = ex.message ?: "Invalid order status transition"
+            message = ex.message ?: "The requested status change is not permitted"
         )
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
@@ -171,7 +171,7 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponse(
             status = HttpStatus.BAD_REQUEST.value(),
             error = "Validation Error",
-            message = ex.message ?: "Invalid order data"
+            message = ex.message ?: "Order details are invalid"
         )
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
@@ -190,7 +190,7 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponse(
             status = HttpStatus.BAD_REQUEST.value(),
             error = "Validation Error",
-            message = ex.message ?: "Invalid data provided"
+            message = ex.message ?: "Provided information does not meet requirements"
         )
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
@@ -204,7 +204,7 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponse(
             status = HttpStatus.CONFLICT.value(),
             error = "Email Already Exists",
-            message = ex.message ?: "Email already exists"
+            message = ex.message ?: "This email address is already associated with an account"
         )
         return ResponseEntity
             .status(HttpStatus.CONFLICT)
@@ -220,7 +220,7 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponse(
             status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
             error = "Internal Server Error",
-            message = "An unexpected error occurred. Please try again later."
+            message = "Something went wrong on our end. Please try again later."
         )
 
         return ResponseEntity

@@ -9,7 +9,7 @@ import domain.port.RestaurantRepositoryPort
 import jakarta.transaction.Transactional
 
 @Service
-class DishServiceImpl(
+class DishService(
     private val dishRepositoryPort: DishRepositoryPort,
     private val restaurantRepositoryPort: RestaurantRepositoryPort
 ) : DishService {
